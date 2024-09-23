@@ -3,14 +3,13 @@ package com.example.app_development_project;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.app_development_project.R;
 import com.example.carshowroom.TabPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
-import java.util.ArrayList;
+
+import java.util.Objects;
 
 public class TabActivity extends AppCompatActivity {
 
@@ -38,12 +37,38 @@ public class TabActivity extends AppCompatActivity {
         // Set adapter to ViewPager
         viewPager.setAdapter(adapter);
 
-        // Attach TabLayout with ViewPager2 using TabLayoutMediator
-        new TabLayoutMediator(tabLayout, viewPager, new TabLayoutMediator.TabConfigurationStrategy() {
+        // Set tab titles manually
+        tabLayout.addTab(tabLayout.newTab().setText("Book a Car"));
+        tabLayout.addTab(tabLayout.newTab().setText("Car Service"));
+        tabLayout.addTab(tabLayout.newTab().setText("Car Inventory"));
+        tabLayout.addTab(tabLayout.newTab().setText("Test Drive"));
+
+        // Synchronize ViewPager and TabLayout manually
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText(adapter.getPageTitle(position));
+            public void onTabSelected(TabLayout.Tab tab) {
+                // When a tab is selected, switch to the corresponding fragment
+                viewPager.setCurrentItem(tab.getPosition());
             }
-        }).attach();
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // Not used
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // Not used
+            }
+        });
+
+        // Handle page swiping and change the tab accordingly
+        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                Objects.requireNonNull(tabLayout.getTabAt(position)).select();
+            }
+        });
     }
 }

@@ -5,6 +5,8 @@ import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
+
+import com.example.carshowroom.TabPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayout.Tab;
 
@@ -25,9 +27,8 @@ public class    AdminDashboardActivity extends AppCompatActivity {
         int numTabs = 1;
 
         // Set up ViewPager2 with an adapter
-        CustomPagerAdapter adapter = new CustomPagerAdapter(this, numTabs);
+        TabPagerAdapter adapter = new TabPagerAdapter(this);
         viewPager.setAdapter(adapter);
-
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(Tab tab) {
@@ -45,6 +46,22 @@ public class    AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(Tab tab) {
+
+            }
+        });
         // Synchronize ViewPager2 with TabLayout
         viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
