@@ -63,9 +63,9 @@ public class LoginActivity extends AppCompatActivity {
                 String pass = password.getText().toString();
 
                 if (user.equals("admin") && pass.equals("admin")) {
-                    startActivity(new Intent(LoginActivity.this, AdminDashboardActivity.class));
-                    Log.d("Login", "Login successful");
-                    finish();
+                    Intent intent = new Intent(LoginActivity.this, TabActivity.class);
+                    startActivity(intent);
+                    finish();;
                 } else {
                     Toast.makeText(LoginActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                 }

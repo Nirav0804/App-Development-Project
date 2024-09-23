@@ -30,7 +30,7 @@ public class CarInventoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view,Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        RecyclerView recyclerViewCars = view.findViewById(R.id.recyclerViewCars);
-        recyclerViewCars.setLayoutManager(new LinearLayoutManager(getContext()));
+//        RecyclerView recyclerViewCars = view.findViewById(R.id.recyclerViewCars);
+//        recyclerViewCars.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 }
