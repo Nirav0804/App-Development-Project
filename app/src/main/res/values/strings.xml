@@ -2,4 +2,12 @@
     <string name="app_name">App-Development-Project</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string-array name="car_names_array">
+        <item>Car 1</item>
+        <item>Car 2</item>
+        <item>Car 3</item>
+        <item>Car 4</item>
+        <item>Car 5</item>
+        <!-- Add more car names as needed -->
+    </string-array>
 </resources>

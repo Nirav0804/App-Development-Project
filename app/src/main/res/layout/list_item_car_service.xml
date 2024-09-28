@@ -8,51 +8,71 @@
     card_view:cardElevation="6dp"
     android:background="@drawable/rounded_corners">
 
-<LinearLayout
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal"
-android:padding="16dp">
-
-<!-- Image for the car -->
-<ImageView
-    android:id="@+id/car_image"
-    android:layout_width="80dp"
-    android:layout_height="80dp"
-    android:src="@drawable/ic_launcher_background"
-    android:scaleType="centerCrop"
-    android:layout_marginEnd="16dp"/>
-
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/car_name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Car Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="#333333" />
+        android:orientation="horizontal"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/customer_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Customer Name"
-        android:textSize="16sp"
-        android:textColor="#555555" />
+        <!-- Image for the car -->
+        <ImageView
+            android:id="@+id/car_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_launcher_background"
+            android:scaleType="centerCrop"
+            android:layout_marginEnd="16dp" />
 
-    <TextView
-        android:id="@+id/eta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ETA: 2 days"
-        android:textSize="14sp"
-        android:textColor="#888888" />
-</LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-</LinearLayout>
-    </androidx.cardview.widget.CardView>
+            <!-- Car Name -->
+            <TextView
+                android:id="@+id/car_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Car Name"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333" />
+
+            <!-- Customer Name -->
+            <TextView
+                android:id="@+id/customer_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Customer Name"
+                android:textSize="16sp"
+                android:textColor="#555555" />
+
+            <!-- ETA -->
+            <TextView
+                android:id="@+id/eta"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ETA: 2 days"
+                android:textSize="14sp"
+                android:textColor="#888888" />
+
+            <!-- Mobile Number -->
+            <TextView
+                android:id="@+id/mobile_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mobile: 1234567890"
+                android:textSize="14sp"
+                android:textColor="#777777" />
+
+            <!-- Booking Date -->
+            <TextView
+                android:id="@+id/booking_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Booking Date: 12 Sep 2024"
+                android:textSize="14sp"
+                android:textColor="#777777" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

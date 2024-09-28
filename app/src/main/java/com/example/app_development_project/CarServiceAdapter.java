@@ -52,12 +52,16 @@ public class CarServiceAdapter extends BaseAdapter {
         TextView carName = convertView.findViewById(R.id.car_name);
         TextView customerName = convertView.findViewById(R.id.customer_name);
         TextView eta = convertView.findViewById(R.id.eta);
+        TextView mobileNumber = convertView.findViewById(R.id.mobile_number);  // New Mobile Number TextView
+        TextView bookingDate = convertView.findViewById(R.id.booking_date);    // New Booking Date TextView
 
         // Set data into views
         carImage.setImageResource(currentCarService.getImageResource());
         carName.setText(currentCarService.getCarName());
         customerName.setText(currentCarService.getCustomerName());
         eta.setText("ETA: " + currentCarService.getEta());
+        mobileNumber.setText("Mobile: " + currentCarService.getMobileNumber());  // Set mobile number
+        bookingDate.setText("Booking Date: " + currentCarService.getBookingDate());  // Set booking date
 
         return convertView;
     }
