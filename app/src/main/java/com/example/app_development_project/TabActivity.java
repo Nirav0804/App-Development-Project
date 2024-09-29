@@ -32,7 +32,6 @@ public class TabActivity extends AppCompatActivity {
         adapter.addFragment(new BookCarFragment(), "Book a Car");
         adapter.addFragment(new CarServiceFragment(), "Car Service");
         adapter.addFragment(new CarInventoryFragment(), "Car Inventory");
-        adapter.addFragment(new TestDriveFragment(), "Test Drive");
 
         // Set adapter to ViewPager
         viewPager.setAdapter(adapter);
@@ -41,7 +40,6 @@ public class TabActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Book a Car"));
         tabLayout.addTab(tabLayout.newTab().setText("Car Service"));
         tabLayout.addTab(tabLayout.newTab().setText("Car Inventory"));
-        tabLayout.addTab(tabLayout.newTab().setText("Test Drive"));
 
         // Synchronize ViewPager and TabLayout manually
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
