@@ -1,6 +1,5 @@
 package com.example.app_development_project;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.carshowroom.CarServiceAdapter;
+import com.example.app_development_project.CarServiceModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +31,6 @@ public class CarServiceFragment extends Fragment {
     // Firebase reference
     private DatabaseReference serviceCarsDatabaseRef;
 
-    @SuppressLint("MissingInflatedId")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_car_service, container, false);
@@ -40,7 +38,7 @@ public class CarServiceFragment extends Fragment {
         listView = view.findViewById(R.id.listView);
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
 
-        // Initialize Firebase reference for "serviceCars"
+        // Firebase reference
         serviceCarsDatabaseRef = FirebaseDatabase.getInstance().getReference("serviceCars");
 
         // Initialize the list and adapter
@@ -77,15 +75,11 @@ public class CarServiceFragment extends Fragment {
                     String eta = snapshot.child("eta").getValue(String.class);
                     String mobileNumber = snapshot.child("mobileNumber").getValue(String.class);
                     String bookingDate = snapshot.child("bookingDate").getValue(String.class);
+                    String imageURL = snapshot.child("imageURL").getValue(String.class); // Fetch imageURL
 
-                    // Assuming you have a default image or URL for car images, you can customize as needed
-                    int carImageResId = R.drawable.ic_launcher_background;
-
-                    // Check if all values are not null before adding to the list
-                    if (carName != null && customerName != null && eta != null && mobileNumber != null && bookingDate != null) {
-                        // Create CarServiceModel object and add to the list
-                        CarServiceModel carServiceModel = new CarServiceModel(carName, customerName, eta, carImageResId, mobileNumber, bookingDate);
-                        carServiceList.add(carServiceModel);
+                    if (carName != null && customerName != null && eta != null && mobileNumber != null && bookingDate != null && imageURL != null) {
+                        CarServiceModel carService = new CarServiceModel(carName, customerName, eta, mobileNumber, bookingDate, imageURL);
+                        carServiceList.add(carService);
                     }
                 }
 

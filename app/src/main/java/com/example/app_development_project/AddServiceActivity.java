@@ -3,6 +3,7 @@ package com.example.app_development_project;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,11 +29,15 @@ import java.util.Map;
 public class AddServiceActivity extends AppCompatActivity {
 
     private Spinner spinnerCarName;
+    private String selectedCarName;
+    private String selectedImageURL;
     private EditText editTextCustomerName, editTextBookingDate, editTextMobileNumber;
     private Button buttonSubmit;
 
-    private DatabaseReference carDatabaseReference; // Firebase reference for fetching cars
-    private DatabaseReference serviceDatabaseReference; // Firebase reference for storing service data
+    // Firebase database references
+    private DatabaseReference carDatabaseReference;
+    private DatabaseReference serviceDatabaseReference;
+
     private ArrayList<String> carNameList = new ArrayList<>();
 
     @Override
@@ -77,7 +82,7 @@ public class AddServiceActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 carNameList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String carName = snapshot.child("name").getValue(String.class);
+                    String carName = snapshot.child("name").getValue(String.class); // Assumes "name" is the field for car names
                     if (carName != null) {
                         carNameList.add(carName);
                     }
@@ -87,11 +92,44 @@ public class AddServiceActivity extends AppCompatActivity {
                         android.R.layout.simple_spinner_item, carNameList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCarName.setAdapter(adapter);
+
+                // Set onItemSelectedListener to get the selected car name and fetch image URL
+                spinnerCarName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selectedCarName = carNameList.get(position); // Get the selected car name
+                        fetchImageURL(selectedCarName); // Fetch image URL based on car name
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        selectedCarName = null; // Reset selected car name if nothing is selected
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(AddServiceActivity.this, "Failed to load car names", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchImageURL(String carName) {
+        // Fetch the image URL from the cars database based on the selected car name
+        carDatabaseReference.orderByChild("name").equalTo(carName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        selectedImageURL = snapshot.child("imageURL").getValue(String.class); // Fetch image URL
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(AddServiceActivity.this, "Failed to fetch image URL", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -142,6 +180,7 @@ public class AddServiceActivity extends AppCompatActivity {
             serviceDetails.put("bookingDate", bookingDate);
             serviceDetails.put("mobileNumber", mobileNumber);
             serviceDetails.put("eta", etaDate); // Store ETA
+            serviceDetails.put("imageURL", selectedImageURL); // Store image URL fetched from Firebase
 
             // Push the service details to Firebase
             serviceDatabaseReference.push().setValue(serviceDetails).addOnCompleteListener(task -> {

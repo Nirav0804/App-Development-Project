@@ -1,4 +1,4 @@
-package com.example.carshowroom;
+package com.example.app_development_project;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,8 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.app_development_project.CarServiceModel;
-import com.example.app_development_project.R;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -44,24 +43,29 @@ public class CarServiceAdapter extends BaseAdapter {
             convertView = LayoutInflater.from(context).inflate(R.layout.list_item_car_service, parent, false);
         }
 
-        // Get current item to be displayed
+        // Get current car service item
         CarServiceModel currentCarService = (CarServiceModel) getItem(position);
 
-        // Get references to views
-        ImageView carImage = convertView.findViewById(R.id.car_image);
+        // Initialize views in the item layout
         TextView carName = convertView.findViewById(R.id.car_name);
         TextView customerName = convertView.findViewById(R.id.customer_name);
         TextView eta = convertView.findViewById(R.id.eta);
-        TextView mobileNumber = convertView.findViewById(R.id.mobile_number);  // New Mobile Number TextView
-        TextView bookingDate = convertView.findViewById(R.id.booking_date);    // New Booking Date TextView
+        TextView mobileNumber = convertView.findViewById(R.id.mobile_number);
+        TextView bookingDate = convertView.findViewById(R.id.booking_date);
+        ImageView carImage = convertView.findViewById(R.id.car_image);
 
-        // Set data into views
-        carImage.setImageResource(currentCarService.getImageResource());
+        // Bind data to views
         carName.setText(currentCarService.getCarName());
         customerName.setText(currentCarService.getCustomerName());
         eta.setText("ETA: " + currentCarService.getEta());
-        mobileNumber.setText("Mobile: " + currentCarService.getMobileNumber());  // Set mobile number
-        bookingDate.setText("Booking Date: " + currentCarService.getBookingDate());  // Set booking date
+        mobileNumber.setText("Mobile: " + currentCarService.getMobileNumber());
+        bookingDate.setText("Booking Date: " + currentCarService.getBookingDate());
+
+        // Load car image using Glide
+        Glide.with(context)
+                .load(currentCarService.getImageURL())
+                .placeholder(R.drawable.ic_launcher_background) // Placeholder image
+                .into(carImage);
 
         return convertView;
     }
