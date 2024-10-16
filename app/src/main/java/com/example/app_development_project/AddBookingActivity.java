@@ -138,31 +138,32 @@ public class AddBookingActivity extends AppCompatActivity {
     }
 
     private void reduceCarQuantity(String carName) {
-        carsDatabase.child(carName).child("quantity").addListenerForSingleValueEvent(new ValueEventListener() {
+        carsDatabase.orderByChild("name").equalTo(carName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Integer quantity = dataSnapshot.getValue(Integer.class);
+                if (dataSnapshot.exists()) {
+                    for (DataSnapshot carSnapshot : dataSnapshot.getChildren()) {
+                        Integer quantity = carSnapshot.child("quantity").getValue(Integer.class);
 
-                // Debugging log
-                Log.d("AddBookingActivity", "Quantity for " + carName + ": " + quantity);
-
-                if (quantity != null) {
-                    if (quantity > 0) {
-                        carsDatabase.child(carName).child("quantity").setValue(quantity - 1);
-                    } else {
-                        Toast.makeText(AddBookingActivity.this, "No more cars available to book.", Toast.LENGTH_SHORT).show();
+                        if (quantity != null && quantity > 0) {
+                            // Reduce quantity by 1
+                            carSnapshot.getRef().child("quantity").setValue(quantity - 1);
+                            Toast.makeText(AddBookingActivity.this, "Quantity updated successfully!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AddBookingActivity.this, "No more cars available to book.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
-                    Toast.makeText(AddBookingActivity.this, "Quantity is null for " + carName, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddBookingActivity.this, "Car not found in database.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Handle errors here
-                Toast.makeText(AddBookingActivity.this, "Failed to get quantity from database.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddBookingActivity.this, "Failed to update quantity: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
 }
