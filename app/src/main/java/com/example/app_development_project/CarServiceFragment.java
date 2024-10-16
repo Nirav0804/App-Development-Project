@@ -9,9 +9,9 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.app_development_project.CarServiceModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CarServiceFragment extends Fragment {
+public class CarServiceFragment extends Fragment implements CarServiceAdapter.OnCarDeliveredListener {
 
     private ListView listView;
     private ArrayList<CarServiceModel> carServiceList;
@@ -43,7 +43,7 @@ public class CarServiceFragment extends Fragment {
 
         // Initialize the list and adapter
         carServiceList = new ArrayList<>();
-        adapter = new CarServiceAdapter(getContext(), carServiceList);
+        adapter = new CarServiceAdapter(getContext(), carServiceList, this); // Pass 'this' as the listener
         listView.setAdapter(adapter);
 
         // Fetch the car services from Firebase
@@ -79,7 +79,7 @@ public class CarServiceFragment extends Fragment {
 
                     if (carName != null && customerName != null && eta != null && mobileNumber != null && bookingDate != null && imageURL != null) {
                         CarServiceModel carService = new CarServiceModel(carName, customerName, eta, mobileNumber, bookingDate, imageURL);
-                        carServiceList.add(0,carService);
+                        carServiceList.add(0, carService);
                     }
                 }
 
@@ -91,6 +91,33 @@ public class CarServiceFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle database error
                 Toast.makeText(getContext(), "Failed to load car services", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Implement the method from the listener
+    @Override
+    public void onCarDelivered(CarServiceModel carService) {
+        removeCarService(carService); // Call method to remove the car service
+    }
+
+    private void removeCarService(CarServiceModel carService) {
+        // Remove the car service from Firebase
+        serviceCarsDatabaseRef.orderByChild("carName").equalTo(carService.getCarName()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    snapshot.getRef().removeValue(); // Remove car service from Firebase
+                }
+                // Refresh the list after removal
+                carServiceList.remove(carService); // Remove from local list
+                adapter.notifyDataSetChanged(); // Notify adapter to refresh the list
+                Toast.makeText(getContext(), "Car service marked as delivered.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(getContext(), "Failed to remove car service.", Toast.LENGTH_SHORT).show();
             }
         });
     }

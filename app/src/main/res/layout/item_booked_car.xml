@@ -3,30 +3,79 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#FFFFFF"> <!-- Background color for contrast -->
 
+    <!-- Car Image -->
     <ImageView
         android:id="@+id/car_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-    android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:layout_marginBottom="8dp" />
 
+    <!-- Car Name -->
     <TextView
         android:id="@+id/car_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:text="Car Name"
+        android:textSize="20sp"
+    android:textStyle="bold"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp"
+    android:textColor="#222222" /> <!-- Darker color for visibility -->
 
+    <!-- Customer Name -->
     <TextView
         android:id="@+id/customer_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp" />
+        android:text="Customer Name"
+        android:textSize="18sp"
+    android:textColor="#333333"
+    android:layout_marginBottom="4dp"/>
 
+    <!-- Booking Date -->
     <TextView
         android:id="@+id/booking_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp" />
+        android:text="Booking Date"
+        android:textSize="16sp"
+    android:textColor="#666666"
+    android:layout_marginBottom="12dp"/>
+
+    <!-- Horizontal Layout for Delivery Confirmation -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <!-- Instruction Text -->
+        <TextView
+            android:id="@+id/instruction_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Car Delivered?"
+            android:textSize="14sp"
+        android:textColor="#555555"
+        android:layout_marginEnd="8dp" /> <!-- Margin between text and button -->
+
+        <!-- Button for confirming delivery -->
+        <Button
+            android:id="@+id/btn_car_delivered"
+            android:layout_width="64dp"
+            android:layout_height="wrap_content"
+            android:elevation="2dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="3dp"
+            android:paddingRight="4dp"
+            android:paddingBottom="3dp"
+            android:layout_marginLeft="5dp"
+            android:text="Yes"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp" />
+    </LinearLayout>
 </LinearLayout>
