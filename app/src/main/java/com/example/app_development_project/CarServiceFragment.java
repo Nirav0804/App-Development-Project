@@ -79,7 +79,7 @@ public class CarServiceFragment extends Fragment {
 
                     if (carName != null && customerName != null && eta != null && mobileNumber != null && bookingDate != null && imageURL != null) {
                         CarServiceModel carService = new CarServiceModel(carName, customerName, eta, mobileNumber, bookingDate, imageURL);
-                        carServiceList.add(carService);
+                        carServiceList.add(0,carService);
                     }
                 }
 

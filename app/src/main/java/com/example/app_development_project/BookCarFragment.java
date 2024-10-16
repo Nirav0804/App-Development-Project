@@ -76,7 +76,7 @@ public class BookCarFragment extends Fragment {
                     String carImageUrl = snapshot.child("carImageUrl").getValue(String.class); // Fetch image URL
 
                     BookedCarModel car = new BookedCarModel(carName, customerName, bookingDate, carImageUrl);
-                    bookedCarList.add(car);  // Add car object to the list
+                    bookedCarList.add(0,car);  // Add car object to the list
                 }
                 // Notify the adapter to update the ListView
                 bookedCarAdapter.notifyDataSetChanged();
